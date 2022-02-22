@@ -1,9 +1,10 @@
 #include <SDL.h>
 #include <stdio.h>
-#include "..\..\Include\bomberman.h"
-#include "..\..\Include\level.h"
-#include "..\..\Include\parse_bmp.h"
-#include "..\..\Include\client.h"
+#include "bomberman.h"
+#include "level.h"
+#include "parse_bmp.h"
+#include "client.h"
+#include "players_mgr.h"
 
 int main(int argc, char **argv)
 {
@@ -27,7 +28,7 @@ int main(int argc, char **argv)
     SDL_Texture *player_texture = create_texture_from_BMP_file("bin\\resources\\Sprites\\BMP\\Bomberman\\Front\\Bman_F_f00.bmp", "rb", renderer);
     bomberman_t *player0 = bomberman_new(100, 100, 64, 128, 100);
     bomberman_new_texture(player0, player_texture);
-    bomberman_t **players = calloc(10, sizeof(bomberman_t **));
+    players_mgr_init();
     // load level texture
     level_level_texture_init();
     level_load_texture(renderer);
@@ -44,6 +45,7 @@ int main(int argc, char **argv)
 
     // timer init
     client_timer_init(.0167f);
+
     // loop
     int running = 1;
     while (running)
@@ -53,65 +55,42 @@ int main(int argc, char **argv)
         {
             if (event.type == SDL_QUIT)
                 running = 0;
+            // player input
             bomberman_input(player0, &event);
         }
+        // send timer
         if (client_timer_elapsed())
         {
+            // send packet
             client_send_packet(socket, sin_send, htons(sin_receive.sin_port), player0->movable.x, player0->movable.y);
         }
 
+        // read from server
         if (client_receive_packet(socket, &receive))
         {
-            bomberman_t *current = NULL;
-            int index = 0;
-            current = players[index];
-            bool found = false;
-            while (current != NULL)
-            {
-                if (current->code == receive.auth)
-                {
-                    current->movable.x = receive.x;
-                    current->movable.y = receive.y;
-                    current->rect_to_draw.x = receive.x;
-                    current->rect_to_draw.y = receive.y;
-                    found = true;
-                }
-                index += 1;
-                current = players[index];
-            }
-            if (found == false)
-            {
-                bomberman_t *new_player = bomberman_new(receive.x, receive.y, 64, 128, 100);
-                bomberman_new_texture(new_player, player_texture);
-                bomberman_update_code(new_player, receive.auth);
-                new_player->rect_to_draw.x = receive.x;
-                new_player->rect_to_draw.y = receive.y;
-                players[index] = new_player;
-            }
+            // update player and add if new
+            if (players_mgr_contain_code(receive.auth))
+                players_mgr_update_player(receive.x, receive.y, receive.auth);
+            else
+                players_mgr_add_new_player(receive.x, receive.y, 64, 128, 100, player_texture, receive.auth);
         }
+        // clear screen
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
         SDL_RenderClear(renderer);
 
-        level_draw_cell(&level, renderer);
-
+        // update player
         bomberman_move_on_level(player0, &level);
-        if (players != NULL)
-        {
-            bomberman_t *current = NULL;
-            int index = 0;
-            current = players[index];
-            bool found = false;
-            while (current != NULL)
-            {
-                bomberman_draw(current, renderer);
-                index += 1;
-                current = players[index];
-            }
-        }
+
+        // draw
+        level_draw_cell(&level, renderer);
+        players_mgr_draw_players(renderer);
         bomberman_draw(player0, renderer);
+
+        // show
         SDL_RenderPresent(renderer);
     }
 
+    bomberman_free(player0);
     SDL_Quit();
     return 0;
 }

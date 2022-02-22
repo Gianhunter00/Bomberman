@@ -4,7 +4,7 @@ set BIN_PATH=%BASE_PATH%bin
 set MAIN_PATH=%BASE_PATH%tests
 set INC_FILE_C_PATH=%BASE_PATH%main
 set INC_PATH=%BASE_PATH%Include
-set INC_PATH_TEST = %MAIN_PATH%Include
+set INC_PATH_TEST=%MAIN_PATH%\Include
 
 
 

@@ -92,7 +92,6 @@ CLOVE_TEST(getLevelTextureWithInitialization)
     level_level_texture_init();
     CLOVE_NOT_NULL(get_level_texture(0));
     level_level_texture_free();
-    CLOVE_PASS();
 }
 
 CLOVE_TEST(getLevelTextureOutOfRange)
@@ -100,7 +99,6 @@ CLOVE_TEST(getLevelTextureOutOfRange)
     level_level_texture_init();
     CLOVE_NULL(get_level_texture(100));
     level_level_texture_free();
-    CLOVE_PASS();
 }
 
 CLOVE_TEST(levelLoadTextureWithoutInitialization)
