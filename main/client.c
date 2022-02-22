@@ -1,6 +1,7 @@
-#include "..\Include\client.h"
+#include "client.h"
 #include <stdio.h>
 #include <time.h>
+#include <sys/timeb.h>
 
 time_t timer;
 float trigger_timer;
@@ -51,7 +52,7 @@ void client_timer_init(float trigger_seconds)
 
 bool client_timer_elapsed()
 {
-    if ((clock() - timer) / CLOCKS_PER_SEC >= trigger_timer)
+    if (((double)(clock() - timer)) / CLOCKS_PER_SEC >= trigger_timer)
     {
         timer = clock();
         return true;

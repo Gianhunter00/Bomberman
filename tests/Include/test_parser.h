@@ -1,5 +1,5 @@
 #include "clove.h"
-#include "../../Include/parse_bmp.h"
+#include "parse_bmp.h"
 
 CLOVE_TEST(loadBmpNullPath)
 {

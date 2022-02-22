@@ -40,7 +40,7 @@ class Player:
 
 class Server:
 
-    def __init__(self, address='127.0.0.1', port=9999, tolerance=60):
+    def __init__(self, address='127.0.0.1', port=9999, tolerance=660):
         self.address = address
         self.port = port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include <stdio.h>
-#include "..\Include\parse_bmp.h"
+#include "parse_bmp.h"
 
 Uint8 *load_bmp(char *path, char *mode, Uint32 *pixels_offset, Uint32 *width, Uint32 *height, Uint32 *pixels_size, Uint32 *depth)
 {

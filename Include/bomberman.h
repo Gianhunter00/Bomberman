@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Include\movable.h"
+#include "movable.h"
 #include <SDL.h>
 #define BOMBERMAN_MASK 3
 

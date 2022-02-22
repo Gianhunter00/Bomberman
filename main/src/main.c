@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     // player creation
-    SDL_Texture *player_texture = create_texture_from_BMP_file("bin\\Sprites\\BMP\\Bomberman\\Front\\Bman_F_f00.bmp", "rb", renderer);
+    SDL_Texture *player_texture = create_texture_from_BMP_file("bin\\resources\\Sprites\\BMP\\Bomberman\\Front\\Bman_F_f00.bmp", "rb", renderer);
     bomberman_t *player0 = bomberman_new(100, 100, 64, 128, 100);
     bomberman_new_texture(player0, player_texture);
     bomberman_t **players = calloc(10, sizeof(bomberman_t **));
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     client_packet_t receive;
 
     // timer init
-    client_timer_init(0.005f);
+    client_timer_init(.0167f);
     // loop
     int running = 1;
     while (running)

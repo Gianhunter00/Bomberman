@@ -1,4 +1,4 @@
-#include "..\Include\movable.h"
+#include "movable.h"
 #include <stdio.h>
 
 bool check_collision(level_t *level, SDL_Rect *rect_to_check, int collision_mask)

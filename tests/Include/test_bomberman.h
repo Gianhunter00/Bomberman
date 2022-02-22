@@ -1,5 +1,5 @@
 #include "clove.h"
-#include "../../Include/bomberman.h"
+#include "bomberman.h"
 
 CLOVE_TEST(BombermanNew)
 {

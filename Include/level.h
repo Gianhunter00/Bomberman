@@ -1,7 +1,7 @@
 #pragma once
-#include "..\Include\movable.h"
-#include "..\Include\parse_bmp.h"
-#include "..\Include\level001.h"
+#include "movable.h"
+#include "parse_bmp.h"
+#include "level001.h"
 
 typedef enum block_type
 {

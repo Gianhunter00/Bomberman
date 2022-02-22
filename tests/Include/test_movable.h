@@ -1,5 +1,5 @@
 #include "clove.h"
-#include "../../Include/movable.h"
+#include "movable.h"
 
 CLOVE_TEST(MovableFixPositionX)
 {

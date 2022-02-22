@@ -1,4 +1,4 @@
-#include "..\Include\bomberman.h"
+#include "bomberman.h"
 #include <string.h>
 #include <stdio.h>
 

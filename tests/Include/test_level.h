@@ -1,5 +1,5 @@
 #include "clove.h"
-#include "../../Include/level.h"
+#include "level.h"
 
 CLOVE_TEST(LevelInitializationNULL)
 {

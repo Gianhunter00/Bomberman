@@ -1,4 +1,4 @@
-#include "..\Include\level.h"
+#include "level.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -27,9 +27,9 @@ void level_load_texture(SDL_Renderer *renderer)
 {
     if (level_texture == NULL || renderer == NULL)
         return;
-    level_texture[BLOCK_GROUND_TEXTURE] = create_texture_from_BMP_file("bin\\Sprites\\BMP\\Block\\BackgroundTile.bmp", "rb", renderer);
-    level_texture[BLOCK_WALL_TEXTURE] = create_texture_from_BMP_file("bin\\Sprites\\BMP\\Block\\SolidBlock.bmp", "rb", renderer);
-    level_texture[BLOCK_DESTROYABLE_TEXTURE] = create_texture_from_BMP_file("bin\\Sprites\\BMP\\Block\\ExplodableBlock.bmp", "rb", renderer);
+    level_texture[BLOCK_GROUND_TEXTURE] = create_texture_from_BMP_file("bin\\resources\\Sprites\\BMP\\Block\\BackgroundTile.bmp", "rb", renderer);
+    level_texture[BLOCK_WALL_TEXTURE] = create_texture_from_BMP_file("bin\\resources\\Sprites\\BMP\\Block\\SolidBlock.bmp", "rb", renderer);
+    level_texture[BLOCK_DESTROYABLE_TEXTURE] = create_texture_from_BMP_file("bin\\resources\\Sprites\\BMP\\Block\\ExplodableBlock.bmp", "rb", renderer);
     level_texture[TEXTURE_MAX] = NULL;
 }
 
