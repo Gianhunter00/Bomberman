@@ -1,7 +1,6 @@
 #include "client.h"
 #include <stdio.h>
 #include <time.h>
-#include <sys/timeb.h>
 
 time_t timer;
 float trigger_timer;
@@ -27,7 +26,7 @@ int client_init()
 #ifdef _WIN32
     // this part is only required on Windows: it initializes the Winsock2 dll
     WSADATA wsa_data;
-    if (WSAStartup(0x0202, &wsa_data))
+    if (WSAStartup(MAKEWORD(2, 0), &wsa_data) != 0)
     {
         printf("unable to initialize winsock2\n");
         return -1;

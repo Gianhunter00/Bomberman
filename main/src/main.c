@@ -89,7 +89,7 @@ int main(int argc, char **argv)
         // show
         SDL_RenderPresent(renderer);
     }
-
+    WSACleanup();
     bomberman_free(player0);
     SDL_Quit();
     return 0;

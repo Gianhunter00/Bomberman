@@ -16,10 +16,10 @@
 
 typedef struct level
 {
-    int32_t *cells;     // content of the level
-    uint32_t cols;      // number of columns of the level grid
-    uint32_t rows;      // number of rows of the level grid
-    uint32_t cell_size; // size in pixel of a single cell
+    int32_t *cells;     /* content of the level */
+    uint32_t cols;      /* number of columns of the level grid */
+    uint32_t rows;      /* number of rows of the level grid */
+    uint32_t cell_size; /* size in pixel of a single cell */
 } level_t;
 
 typedef struct movable
