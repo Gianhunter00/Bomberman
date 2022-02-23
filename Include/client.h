@@ -13,8 +13,7 @@
 extern time_t timer;        /* timer in use */
 extern float trigger_timer; /* timer interval */
 
-/*
- * \enum client_packet_t
+/** \struct client_packet_t
  * \brief packet sender and receiver format
  * @param auth code of the bomberman
  * @param x x of the bomberman
@@ -27,8 +26,7 @@ typedef struct client_packet
     float y;    /* y of the bomberman   */
 } client_packet_t;
 
-/*
- * \enum client_handshake_t
+/** \struct client_handshake_t
  * \brief packet sender format for the handshake
  * @param port the port you are binded for reading
  */
@@ -37,8 +35,7 @@ typedef struct client_handshake
     int port;   /* the port that is being used for reading on the client */
 }client_handshake_t;
 
-/*
- * Init of the sockaddr for sending or reading.
+/** Init of the sockaddr for sending or reading.
  * If to_bind is true and the port is already in use it will try to bind to the port given less one until it finds a free port to bind
  *
  * @param s the socket in use
@@ -49,30 +46,26 @@ typedef struct client_handshake
  */
 void client_init_sockaddr(SOCKET s, struct sockaddr_in *sin, char* addr, int port, bool to_bind);
 
-/*
- * Init winsock dll if on windows
+/** Init winsock dll if on windows
  * Then create the socket
  *
  * @result the socket created or -1 if error occured
  */
 int client_init();
 
-/*
- * Init the timer
+/** Init the timer
  *
  * @param trigger_seconds interval for the timer
  */
 void client_timer_init(float trigger_seconds);
 
-/*
- * Check if the timer elapsed surpassing the interval given
+/** Check if the timer elapsed surpassing the interval given
  *
  * @result true if it has passed more time than the interval given otherwise false
  */
 bool client_timer_elapsed();
 
-/*
- * Send packet to the given sockaddr_in
+/** Send packet to the given sockaddr_in
  *
  * @param s the socket in use
  * @param sin the sockaddr_in to send the message
@@ -82,8 +75,7 @@ bool client_timer_elapsed();
  */
 void client_send_packet(SOCKET s, struct sockaddr_in sin, int auth, float x, float y);
 
-/*
- * Reader for server message with other players information
+/** Reader for server message with other players information
  *
  * @param s the socket in use
  * @param updateother the packet to fill with the information from the server message
@@ -92,8 +84,7 @@ void client_send_packet(SOCKET s, struct sockaddr_in sin, int auth, float x, flo
  */
 bool client_receive_packet(SOCKET s, client_packet_t *updateother);
 
-/*
- * Handshake to the server to inform it on which port to send the message for this client
+/** Handshake to the server to inform it on which port to send the message for this client
  *
  * @param s the socket in use
  * @param sin the sockaddr_in to send the message

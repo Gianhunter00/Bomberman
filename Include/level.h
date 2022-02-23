@@ -3,8 +3,7 @@
 #include "parse_bmp.h"
 #include "level001.h"
 
-/*
- * \enum block_type_t
+/** \enum block_type_t
  * \brief the available texture type
  * @param BLOCK_GROUND_TEXTURE
  * @param BLOCK_WALL_TEXTURE
@@ -18,19 +17,15 @@ typedef enum block_type
     TEXTURE_MAX                 /* LAST */
 } block_type_t;
 
-/*
- * Init of the level texture drawer
+/** Init of the level texture drawer
  */
 void level_level_texture_init();
 
-/*
- * Free of the level texture drawer
- *
+/** Free of the level texture drawer
  */
 void level_level_texture_free();
 
-/*
- * Get the level texture with the given block_type_c code
+/** Get the level texture with the given block_type_c code
  *
  * @param keyTexture the block_type_t of the texture you want
  * 
@@ -38,15 +33,13 @@ void level_level_texture_free();
  */
 SDL_Texture *get_level_texture(block_type_t keyTexture);
 
-/*
- * Load all the texture needed for the level
+/** Load all the texture needed for the level
  *
  * @param renderer the renderer currently in use
  */
 void level_load_texture(SDL_Renderer *renderer);
 
-/*
- * Init the level passed with the given data
+/** Init the level passed with the given data
  *
  * @param level to initialize
  * @param cols number of cols in the level
@@ -58,8 +51,8 @@ void level_load_texture(SDL_Renderer *renderer);
  */
 int level_init(level_t *level, const uint32_t cols, const uint32_t rows, const uint32_t cell_size, int32_t *cells);
 
-/*
- * Get the cell at the given coordinate
+
+/** Get the cell at the given coordinate
  *
  * @param level map
  * @param col col of the cell
@@ -69,8 +62,7 @@ int level_init(level_t *level, const uint32_t cols, const uint32_t rows, const u
  */
 int32_t level_cell(level_t *level, const uint32_t col, const uint32_t row);
 
-/*
- * Draw of the level
+/** Draw of the level
  *
  * @param level_to_draw map to draw
  * @param renderer the renderer currently in use

@@ -3,8 +3,7 @@
 #include <SDL.h>
 #define BOMBERMAN_MASK 3
 
-/*
- * \enum bomberman_t
+/** \struct bomberman_t
  * \brief bomberman struct
  * @param code Unique code for each bomberman
  * @param movable movable struct for bomberman
@@ -27,8 +26,7 @@ typedef struct bomberman
     SDL_Texture* texture_to_draw;   /* bomberman's texture */
 } bomberman_t;
 
-/*
- * Creating a new bomberman and return the pointer to it
+/** Creating a new bomberman and return the pointer to it
  * 
  * @param x position x of the bomberman
  * @param y position y of the bomberman
@@ -39,47 +37,41 @@ typedef struct bomberman
  */
 bomberman_t *bomberman_new(float x, float y, uint32_t width, uint32_t height, float speed);
 
-/*
- * Free for bomberman
+/** Free for bomberman
  * 
  * @param bomberman bomberman pointer to free
  */
 void bomberman_free(bomberman_t* bomberman);
 
-/*
- * Change texture for the given bomberman
+/** Change texture for the given bomberman
  * 
  * @param bomberman bomberman to change texture
  * @param new_texture new texture to give to the bomberman
  */
 void bomberman_new_texture(bomberman_t *bomberman, SDL_Texture* new_texture);
 
-/*
- * Input update for the bomberman
+/** Input update for the bomberman
  * 
  * @param bomberman bomberman to give input
  * @param event current sdl event in use
  */
 void bomberman_input(bomberman_t* bomberman, SDL_Event* event);
 
-/*
- * Bomberman drawer
+/** Bomberman drawer
  * 
  * @param bomberman bomberman to draw
  * @param renderer renderer to use
  */
 void bomberman_draw(bomberman_t *bomberman, SDL_Renderer *renderer);
 
-/*
- * Move on level for bomberman using his blocking mask for obstacle
+/** Move on level for bomberman using his blocking mask for obstacle
  * 
  * @param bomberman bomberman to move
  * @param level level where bomberman is moving
  */
 void bomberman_move_on_level(bomberman_t* bomberman, level_t* level);
 
-/*
- * Bomberman add unique code
+/** Bomberman add unique code
  *
  * currently using the port since it can be binded by only one at a time in local
  * 
