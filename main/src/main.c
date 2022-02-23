@@ -1,8 +1,6 @@
 #include <SDL.h>
 #include <stdio.h>
 #include "bomberman.h"
-#include "level.h"
-#include "parse_bmp.h"
 #include "client.h"
 #include "players_mgr.h"
 

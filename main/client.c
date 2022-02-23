@@ -26,6 +26,7 @@ int client_init()
 #ifdef _WIN32
     // this part is only required on Windows: it initializes the Winsock2 dll
     WSADATA wsa_data;
+    //memset(&wsa_data, 0, sizeof(wsa_data));
     if (WSAStartup(MAKEWORD(2, 0), &wsa_data) != 0)
     {
         printf("unable to initialize winsock2\n");
@@ -79,7 +80,7 @@ void client_send_packet(SOCKET s, struct sockaddr_in sin, int auth, float x, flo
     char mss[sizeof(client_packet_t) + sizeof(char)];
     memcpy(mss, &packet, sizeof(client_packet_t));
     int sent_bytes = sendto(s, mss, sizeof(client_packet_t), 0, (struct sockaddr *)&sin, sizeof(sin));
-    //printf("sent %d bytes via UDP\n", sent_bytes);
+    // printf("sent %d bytes via UDP\n", sent_bytes);
 }
 
 bool client_receive_packet(SOCKET s, client_packet_t *updateother)
@@ -93,7 +94,7 @@ bool client_receive_packet(SOCKET s, client_packet_t *updateother)
         buffer[len] = 0;
         char addr_as_string[64];
         inet_ntop(AF_INET, &sender_in.sin_addr, addr_as_string, 64);
-        //printf("received %d bytes from %s:%d\n", len, addr_as_string, ntohs(sender_in.sin_port));
+        // printf("received %d bytes from %s:%d\n", len, addr_as_string, ntohs(sender_in.sin_port));
         if (len == 4)
         {
             int bytes;

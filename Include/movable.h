@@ -5,23 +5,18 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <SDL.h>
+#include "level.h"
 
-#define BLOCK_MASK_UNWALKABLE 0x0100
-#define BLOCK_MASK_TELEPORT 0x0200
-#define BLOCK_MASK_EXIT 0x0400
-
-#define BLOCK_GROUND 0
-#define BLOCK_WALL 1
-#define BLOCK_DESTROYABLE 2
-
-typedef struct level
-{
-    int32_t *cells;     /* content of the level */
-    uint32_t cols;      /* number of columns of the level grid */
-    uint32_t rows;      /* number of rows of the level grid */
-    uint32_t cell_size; /* size in pixel of a single cell */
-} level_t;
-
+/** \struct movable_t
+ * \brief movable struct to move on the map
+ * @param x x position of the movable
+ * @param y y position of the movable
+ * @param width width of the movable
+ * @param height height of the movable
+ * @param speed speed of the movable
+ * @param x_offset x offset for collision (is both left and right)
+ * @param y_offset y offset for collision it's only from top to bottom NOT bottom to top
+ */
 typedef struct movable
 {
     float x;
@@ -33,12 +28,25 @@ typedef struct movable
     float y_offset;
 } movable_t;
 
-
+/** Check if collision happened
+ *
+ * @param level current level
+ * @param rect_to_check rect to check the collision with the level
+ * @param collision_mask collision mask of the owner of the rect
+ * 
+ * @result true if there was a collision, false if not
+ */
 bool check_collision(level_t* level, SDL_Rect *rect_to_check, int collision_mask);
-// try moving an object on the level
+
+/** Move the movable on the level
+ *
+ * @param level current level
+ * @param movable the movable to move on the level
+ * @param delta_x movement on the horizontal axys
+ * @param delta_y movement on the vertical axys
+ * @param collision_mask collision mask of the owner of the movable
+ * 
+ * @result true if there was a collision, false if not
+ */
 int32_t move_on_level(level_t *level, movable_t *movable, const float delta_x, const float delta_y, int collision_mask);
-// initialize a level structure
-int level_init(level_t *level, const uint32_t cols, const uint32_t rows, const uint32_t cell_size, int32_t *cells);
-// get the cell content at the specified coordinates
-int32_t level_cell(level_t* level, const uint32_t col, const uint32_t row);
 #endif

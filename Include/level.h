@@ -1,20 +1,42 @@
 #pragma once
-#include "movable.h"
 #include "parse_bmp.h"
 #include "level001.h"
 
+#define BLOCK_MASK_UNWALKABLE 0x0100
+#define BLOCK_MASK_TELEPORT 0x0200
+#define BLOCK_MASK_EXIT 0x0400
+
+#define BLOCK_GROUND 0
+#define BLOCK_WALL 1
+#define BLOCK_DESTROYABLE 2
+
+/** \struct level_t
+ * \brief level structure
+ * @param cells content of the level
+ * @param cols number of columns of the level grid
+ * @param rows number of rows of the level grid
+ * @param cell_size size in pixel of a single cell
+ */
+typedef struct level
+{
+    int32_t *cells;     
+    uint32_t cols;      
+    uint32_t rows;      
+    uint32_t cell_size; 
+} level_t;
+
 /** \enum block_type_t
  * \brief the available texture type
- * @param BLOCK_GROUND_TEXTURE
- * @param BLOCK_WALL_TEXTURE
- * @param BLOCK_DESTROYABLE_TEXTURE
+ * @param BLOCK_GROUND_TEXTURE Ground type texture
+ * @param BLOCK_WALL_TEXTURE Wall type texture
+ * @param BLOCK_DESTROYABLE_TEXTURE Destroyable type texture
  */
 typedef enum block_type
 {
-    BLOCK_GROUND_TEXTURE = 0,   /* Ground type texture*/
-    BLOCK_WALL_TEXTURE,         /* Wall type texture*/
-    BLOCK_DESTROYABLE_TEXTURE,  /* Destroyable type texture*/
-    TEXTURE_MAX                 /* LAST */
+    BLOCK_GROUND_TEXTURE = 0,   
+    BLOCK_WALL_TEXTURE,         
+    BLOCK_DESTROYABLE_TEXTURE,  
+    TEXTURE_MAX                 
 } block_type_t;
 
 /** Init of the level texture drawer

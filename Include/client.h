@@ -21,9 +21,9 @@ extern float trigger_timer; /* timer interval */
  */
 typedef struct client_packet
 {
-    int auth;   /* code of the bomberman */
-    float x;    /* x of the bomberman   */
-    float y;    /* y of the bomberman   */
+    int auth;   
+    float x;    
+    float y;    
 } client_packet_t;
 
 /** \struct client_handshake_t
@@ -32,7 +32,7 @@ typedef struct client_packet
  */
 typedef struct client_handshake
 {
-    int port;   /* the port that is being used for reading on the client */
+    int port;
 }client_handshake_t;
 
 /** Init of the sockaddr for sending or reading.

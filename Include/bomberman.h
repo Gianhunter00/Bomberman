@@ -16,14 +16,14 @@
  */
 typedef struct bomberman
 {
-    int code;                       /* Unique code for each bomberman */
-    movable_t movable;              /* movable struct for bomberman */
-    uint32_t number_of_bombs;       /* number of bombs of the bomberman */
-    uint32_t dropped_bombs;         /* number of dropped bombs of the bomberman */
-    uint32_t bomb_power;            /* bomb power */
-    float dir[2];                   /* Horizontal[0] and Vertical[1] direction, 1 is right down -1 is left up */
-    SDL_Rect rect_to_draw;          /* rect to draw the bomberman texture */ 
-    SDL_Texture* texture_to_draw;   /* bomberman's texture */
+    int code;                       
+    movable_t movable;              
+    uint32_t number_of_bombs;       
+    uint32_t dropped_bombs;         
+    uint32_t bomb_power;            
+    float dir[2];                   
+    SDL_Rect rect_to_draw;          
+    SDL_Texture* texture_to_draw;   
 } bomberman_t;
 
 /** Creating a new bomberman and return the pointer to it
