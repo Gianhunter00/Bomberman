@@ -6,7 +6,7 @@ static SDL_Texture **level_texture = NULL;
 
 void level_level_texture_init()
 {
-    level_texture = malloc(sizeof(SDL_Texture *) * TEXTURE_MAX);
+    level_texture = malloc(sizeof(SDL_Texture *) * (TEXTURE_MAX + 1));
     return;
 }
 void level_level_texture_free()

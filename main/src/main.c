@@ -12,16 +12,28 @@ int main(int argc, char **argv)
     SDL_Rect cell_rect = {0, 0, level.cell_size, level.cell_size};
 
     // SDL init
-    SDL_Init(SDL_INIT_VIDEO);
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
+        return 1;
+    }
     SDL_Window *window = SDL_CreateWindow("Bomberman",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
                                           level.cols * level.cell_size,
                                           level.rows * level.cell_size,
                                           0);
-
+    if (window == NULL)
+    {
+        printf("Could not create window: %s", SDL_GetError());
+        return 1;
+    }
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
+    if (renderer == NULL)
+    {
+        printf("Could not create renderer: %s", SDL_GetError());
+        return 1;
+    }
     // player creation
     SDL_Texture *player_texture = create_texture_from_BMP_file("bin\\resources\\Sprites\\BMP\\Bomberman\\Front\\Bman_F_f00.bmp", "rb", renderer);
     bomberman_t *player0 = bomberman_new(100, 100, 64, 128, 100);
@@ -43,7 +55,6 @@ int main(int argc, char **argv)
 
     // timer init
     client_timer_init(.0167f);
-
     // loop
     int running = 1;
     while (running)
@@ -89,6 +100,10 @@ int main(int argc, char **argv)
     }
     WSACleanup();
     bomberman_free(player0);
+    players_mgr_free();
+    level_level_texture_free();
     SDL_Quit();
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
     return 0;
 }

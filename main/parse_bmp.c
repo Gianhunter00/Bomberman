@@ -43,7 +43,8 @@ SDL_Texture *create_texture_from_BMP_data(SDL_Renderer *renderer, Uint8 *content
     }
     Uint32 pixel_format = depth == 32 ? SDL_PIXELFORMAT_BGRA32 : SDL_PIXELFORMAT_BGR24;
     Uint32 full_padded_size = padded_row_size * height;
-    SDL_Texture *texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, width, height);
+    SDL_Texture* texture = SDL_malloc(sizeof(SDL_Texture*));
+    texture = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, width, height);
     Uint8 *pixels_ptr;
     int pitch;
     SDL_LockTexture(texture, NULL, (void **)&pixels_ptr, &pitch);

@@ -11,6 +11,8 @@ void players_mgr_init()
 
 void players_mgr_free()
 {
+    if(players_mgr == NULL)
+        return;
     bomberman_t *current;
     int index = 0;
     current = players_mgr[index];

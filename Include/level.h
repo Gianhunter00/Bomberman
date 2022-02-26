@@ -33,10 +33,10 @@ typedef struct level
  */
 typedef enum block_type
 {
-    BLOCK_GROUND_TEXTURE = 0,   
-    BLOCK_WALL_TEXTURE,         
-    BLOCK_DESTROYABLE_TEXTURE,  
-    TEXTURE_MAX                 
+    BLOCK_GROUND_TEXTURE = 0,   /* Ground type texture*/
+    BLOCK_WALL_TEXTURE,         /* Wall type texture*/
+    BLOCK_DESTROYABLE_TEXTURE,  /* Destroyable type texture*/
+    TEXTURE_MAX                 /* LAST */
 } block_type_t;
 
 /** Init of the level texture drawer

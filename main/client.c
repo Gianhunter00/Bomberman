@@ -67,7 +67,6 @@ void client_handshake(SOCKET s, struct sockaddr_in sin, struct sockaddr_in sinre
     char mss[sizeof(client_handshake_t) + sizeof(char)];
     memcpy(mss, &packet, sizeof(client_handshake_t));
     int sent_bytes = sendto(s, mss, sizeof(client_handshake_t), 0, (struct sockaddr *)&sin, sizeof(sin));
-    printf("sent %d bytes via UDP\n", sent_bytes);
     //"127.0.0.1"
 }
 
@@ -80,7 +79,6 @@ void client_send_packet(SOCKET s, struct sockaddr_in sin, int auth, float x, flo
     char mss[sizeof(client_packet_t) + sizeof(char)];
     memcpy(mss, &packet, sizeof(client_packet_t));
     int sent_bytes = sendto(s, mss, sizeof(client_packet_t), 0, (struct sockaddr *)&sin, sizeof(sin));
-    // printf("sent %d bytes via UDP\n", sent_bytes);
 }
 
 bool client_receive_packet(SOCKET s, client_packet_t *updateother)
@@ -94,7 +92,6 @@ bool client_receive_packet(SOCKET s, client_packet_t *updateother)
         buffer[len] = 0;
         char addr_as_string[64];
         inet_ntop(AF_INET, &sender_in.sin_addr, addr_as_string, 64);
-        // printf("received %d bytes from %s:%d\n", len, addr_as_string, ntohs(sender_in.sin_port));
         if (len == 4)
         {
             int bytes;
@@ -114,7 +111,6 @@ bool client_receive_packet(SOCKET s, client_packet_t *updateother)
         updateother->auth = auth;
         updateother->x = x;
         updateother->y = y;
-        printf("auth: %d x: %f y: %f\n", auth, x, y);
         return true;
     }
     return false;
