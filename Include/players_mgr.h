@@ -5,9 +5,9 @@ void players_mgr_init();
 
 void players_mgr_free();
 
-int players_mgr_increase_size_by_one();
+int players_mgr_next_index();
 
-int players_mgr_get_size();
+int players_mgr_get_current_index();
 
 bomberman_t *players_mgr_get_by_index(int index);
 

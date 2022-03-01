@@ -29,7 +29,7 @@ int client_init()
     //memset(&wsa_data, 0, sizeof(wsa_data));
     if (WSAStartup(MAKEWORD(2, 0), &wsa_data) != 0)
     {
-        printf("unable to initialize winsock2\n");
+        printf("unable to initialize 1winsock2\n");
         return -1;
     }
 #endif
@@ -96,10 +96,7 @@ bool client_receive_packet(SOCKET s, client_packet_t *updateother)
         {
             int bytes;
             memcpy(&bytes, buffer, 4);
-            if (bytes == 1)
-            {
-                return false;
-            }
+            return false;
         }
         client_packet_t receive;
         int auth;
