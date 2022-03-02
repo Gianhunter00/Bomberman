@@ -1,7 +1,7 @@
 #include "players_mgr.h"
 #include <stdio.h>
 
-#define MAX_PLAYERS 4
+
 static bomberman_t *players_mgr[MAX_PLAYERS];
 static int players_mgr_index = -1;
 
@@ -16,16 +16,15 @@ void players_mgr_init()
 void players_mgr_free()
 {
     bomberman_t *current;
-    int index = 0;
-    current = players_mgr[index];
-    while (current != NULL && index < MAX_PLAYERS)
+    for (size_t i = 0; i < MAX_PLAYERS; i++)
     {
+        current = players_mgr[i];
+        if (current == NULL)
+        {
+            break;
+        }
         bomberman_free(current);
-        index++;
-        current = players_mgr[index];
     }
-    //free(players_mgr);
-    //players_mgr = NULL;
 }
 
 int players_mgr_get_current_index()
@@ -36,7 +35,7 @@ int players_mgr_get_current_index()
 
 int players_mgr_next_index()
 {
-    if(players_mgr_index >= MAX_PLAYERS)
+    if (players_mgr_index >= (MAX_PLAYERS - 1))
         return -1;
     players_mgr_index += 1;
     return players_mgr_index;
@@ -44,19 +43,20 @@ int players_mgr_next_index()
 
 bool players_mgr_contain_code(int code)
 {
-    int index = 0;
-    bomberman_t *current = players_mgr_get_by_index(index);
-    bool found = false;
-    while (current != NULL)
+    bomberman_t *current;
+    for (size_t i = 0; i < MAX_PLAYERS; i++)
     {
+        current = players_mgr_get_by_index(i);
+        if (current == NULL)
+        {
+            break;
+        }
         if (current->code == code)
         {
-            found = true;
+            return true;
         }
-        index++;
-        current = players_mgr_get_by_index(index);
     }
-    return found;
+    return false;
 }
 
 int players_mgr_add_new_player(float x, float y, float width, float height, float speed, SDL_Texture *texture, int code)
@@ -82,9 +82,12 @@ int players_mgr_update_player(float x, float y, int code)
     if (!players_mgr_contain_code(code))
         return 0;
     int index = 0;
-    bomberman_t *current = players_mgr_get_by_index(index);
-    while (current != NULL)
+    bomberman_t *current;
+    for (size_t i = 0; i < MAX_PLAYERS; i++)
     {
+        current = players_mgr_get_by_index(i);
+        if (current == NULL)
+            break;
         if (current->code == code)
         {
             current->movable.x = x;
@@ -92,18 +95,45 @@ int players_mgr_update_player(float x, float y, int code)
             current->rect_to_draw.x = x;
             current->rect_to_draw.y = y;
         }
-        index++;
-        current = players_mgr_get_by_index(index);
     }
     return 1;
 }
 
 void players_mgr_draw_players(SDL_Renderer *renderer)
 {
-    int index = 0;
-    while (players_mgr[index] != NULL)
+    for (size_t i = 0; i < MAX_PLAYERS; i++)
     {
-        bomberman_draw(players_mgr[index], renderer);
-        index++;
+        if (players_mgr[i] == NULL)
+            break;
+        bomberman_draw(players_mgr[i], renderer);
+    }
+}
+
+void players_mgr_remove_player(int code)
+{
+    players_mgr_index -= 1;
+        bomberman_t *current;
+    int index_removed = -1;
+    for (size_t i = 0; i < MAX_PLAYERS; i++)
+    {
+        current = players_mgr[i];
+        if (current == NULL)
+        {
+            break;
+        }
+        if (index_removed != -1)
+        {
+            players_mgr[index_removed] = players_mgr[i];
+            players_mgr[i] = NULL;
+            index_removed++;
+            continue;
+        }
+        if (current->code == code)
+        {
+            bomberman_free(current);
+            current = NULL;
+            players_mgr[i] = NULL;
+            index_removed = i;
+        }
     }
 }

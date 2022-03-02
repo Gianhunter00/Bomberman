@@ -1,14 +1,13 @@
 #pragma once
-#ifndef BOMBERMAN_H
-#define BOMBERMAN_H
-
 #include <stdint.h>
 #include <stdbool.h>
 #include <SDL.h>
 #include "level.h"
 
-/** \struct movable_t
- * \brief movable struct to move on the map
+/** 
+ * @struct movable_t
+ * @brief Movable struct to move on the map
+ * 
  * @param x x position of the movable
  * @param y y position of the movable
  * @param width width of the movable
@@ -28,7 +27,8 @@ typedef struct movable
     float y_offset;
 } movable_t;
 
-/** Check if collision happened
+/** 
+ * @brief Check if collision happened
  *
  * @param level current level
  * @param rect_to_check rect to check the collision with the level
@@ -38,7 +38,8 @@ typedef struct movable
  */
 bool check_collision(level_t* level, SDL_Rect *rect_to_check, int collision_mask);
 
-/** Move the movable on the level
+/** 
+ * @brief Move the movable on the level
  *
  * @param level current level
  * @param movable the movable to move on the level
@@ -49,4 +50,3 @@ bool check_collision(level_t* level, SDL_Rect *rect_to_check, int collision_mask
  * @result true if there was a collision, false if not
  */
 int32_t move_on_level(level_t *level, movable_t *movable, const float delta_x, const float delta_y, int collision_mask);
-#endif

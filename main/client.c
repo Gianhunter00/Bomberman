@@ -1,4 +1,5 @@
 #include "client.h"
+#include "players_mgr.h"
 #include <stdio.h>
 #include <time.h>
 
@@ -26,7 +27,7 @@ int client_init()
 #ifdef _WIN32
     // this part is only required on Windows: it initializes the Winsock2 dll
     WSADATA wsa_data;
-    //memset(&wsa_data, 0, sizeof(wsa_data));
+    // memset(&wsa_data, 0, sizeof(wsa_data));
     if (WSAStartup(MAKEWORD(2, 0), &wsa_data) != 0)
     {
         printf("unable to initialize 1winsock2\n");
@@ -60,9 +61,22 @@ bool client_timer_elapsed()
     return false;
 }
 
+void client_send_packet(SOCKET s, struct sockaddr_in sin, int auth, float x, float y)
+{
+    client_packet_t packet;
+    packet.code = 1;
+    packet.auth = auth;
+    packet.x = x;
+    packet.y = y;
+    char mss[sizeof(client_packet_t) + sizeof(char)];
+    memcpy(mss, &packet, sizeof(client_packet_t));
+    int sent_bytes = sendto(s, mss, sizeof(client_packet_t), 0, (struct sockaddr *)&sin, sizeof(sin));
+}
+
 void client_handshake(SOCKET s, struct sockaddr_in sin, struct sockaddr_in sinread)
 {
     client_handshake_t packet;
+    packet.code = 0;
     packet.port = htons(sinread.sin_port);
     char mss[sizeof(client_handshake_t) + sizeof(char)];
     memcpy(mss, &packet, sizeof(client_handshake_t));
@@ -70,15 +84,19 @@ void client_handshake(SOCKET s, struct sockaddr_in sin, struct sockaddr_in sinre
     //"127.0.0.1"
 }
 
-void client_send_packet(SOCKET s, struct sockaddr_in sin, int auth, float x, float y)
+void client_close_connection(SOCKET s, struct sockaddr_in sin, struct sockaddr_in sinread)
 {
-    client_packet_t packet;
-    packet.auth = auth;
-    packet.x = x;
-    packet.y = y;
-    char mss[sizeof(client_packet_t) + sizeof(char)];
-    memcpy(mss, &packet, sizeof(client_packet_t));
-    int sent_bytes = sendto(s, mss, sizeof(client_packet_t), 0, (struct sockaddr *)&sin, sizeof(sin));
+    client_close_t packet;
+    packet.code = 2;
+    packet.auth = htons(sinread.sin_port);
+    char mss[sizeof(client_close_t) + sizeof(char)];
+    memcpy(mss, &packet, sizeof(client_close_t));
+    int sent_bytes = sendto(s, mss, sizeof(client_close_t), 0, (struct sockaddr *)&sin, sizeof(sin));
+}
+
+void client_remove_dead_client(int auth)
+{
+    players_mgr_remove_player(auth);
 }
 
 bool client_receive_packet(SOCKET s, client_packet_t *updateother)
@@ -90,25 +108,39 @@ bool client_receive_packet(SOCKET s, client_packet_t *updateother)
     if (len > 0)
     {
         buffer[len] = 0;
-        char addr_as_string[64];
-        inet_ntop(AF_INET, &sender_in.sin_addr, addr_as_string, 64);
-        if (len == 4)
+        int code;
+        memcpy(&code, buffer, sizeof(int));
+        if (code == 0 && len == 8)
         {
-            int bytes;
-            memcpy(&bytes, buffer, 4);
+            bool can_connect;
+            memcpy(&can_connect, buffer + sizeof(int), sizeof(bool));
+            if(!can_connect)
+            {
+                printf("to many players connected at the same time, try later\n");
+                return false;
+            }
             return false;
         }
-        client_packet_t receive;
-        int auth;
-        float x;
-        float y;
-        memcpy(&auth, buffer, sizeof(int));
-        memcpy(&x, buffer + sizeof(int), sizeof(float));
-        memcpy(&y, buffer + sizeof(int) + sizeof(float), sizeof(float));
-        updateother->auth = auth;
-        updateother->x = x;
-        updateother->y = y;
-        return true;
+        if (code == 1 && len == 16)
+        {
+            client_packet_t receive;
+            int auth;
+            float x;
+            float y;
+            memcpy(&auth, buffer + sizeof(int), sizeof(int));
+            memcpy(&x, buffer + sizeof(int) + sizeof(int), sizeof(float));
+            memcpy(&y, buffer + sizeof(int) + sizeof(int) + sizeof(float), sizeof(float));
+            updateother->auth = auth;
+            updateother->x = x;
+            updateother->y = y;
+            return true;
+        }
+        if(code == 2 && len == 8)
+        {
+            int auth;
+            memcpy(&auth, buffer + sizeof(int), sizeof(int));
+            client_remove_dead_client(auth);
+        }
     }
     return false;
 }

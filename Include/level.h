@@ -10,8 +10,10 @@
 #define BLOCK_WALL 1
 #define BLOCK_DESTROYABLE 2
 
-/** \struct level_t
- * \brief level structure
+/** 
+ * @struct level_t
+ * @brief Level structure
+ * 
  * @param cells content of the level
  * @param cols number of columns of the level grid
  * @param rows number of rows of the level grid
@@ -25,8 +27,10 @@ typedef struct level
     uint32_t cell_size; 
 } level_t;
 
-/** \enum block_type_t
- * \brief the available texture type
+/** 
+ * @enum block_type_t
+ * @brief The available texture type
+ * 
  * @param BLOCK_GROUND_TEXTURE Ground type texture
  * @param BLOCK_WALL_TEXTURE Wall type texture
  * @param BLOCK_DESTROYABLE_TEXTURE Destroyable type texture
@@ -39,15 +43,18 @@ typedef enum block_type
     TEXTURE_MAX                 /* LAST */
 } block_type_t;
 
-/** Init of the level texture drawer
+/** 
+ * @brief Init of the level texture drawer
  */
 void level_level_texture_init();
 
-/** Free of the level texture drawer
+/** 
+ * @brief Free of the level texture drawer
  */
 void level_level_texture_free();
 
-/** Get the level texture with the given block_type_c code
+/** 
+ * @brief Get the level texture with the given block_type_c code
  *
  * @param keyTexture the block_type_t of the texture you want
  * 
@@ -55,13 +62,15 @@ void level_level_texture_free();
  */
 SDL_Texture *get_level_texture(block_type_t keyTexture);
 
-/** Load all the texture needed for the level
+/** 
+ * @brief Load all the texture needed for the level
  *
  * @param renderer the renderer currently in use
  */
 void level_load_texture(SDL_Renderer *renderer);
 
-/** Init the level passed with the given data
+/** 
+ * @brief Init the level passed with the given data
  *
  * @param level to initialize
  * @param cols number of cols in the level
@@ -74,7 +83,8 @@ void level_load_texture(SDL_Renderer *renderer);
 int level_init(level_t *level, const uint32_t cols, const uint32_t rows, const uint32_t cell_size, int32_t *cells);
 
 
-/** Get the cell at the given coordinate
+/** 
+ * @brief Get the cell at the given coordinate
  *
  * @param level map
  * @param col col of the cell
@@ -84,7 +94,8 @@ int level_init(level_t *level, const uint32_t cols, const uint32_t rows, const u
  */
 int32_t level_cell(level_t *level, const uint32_t col, const uint32_t row);
 
-/** Draw of the level
+/** 
+ * @brief Draw of the level
  *
  * @param level_to_draw map to draw
  * @param renderer the renderer currently in use

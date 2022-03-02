@@ -98,6 +98,7 @@ int main(int argc, char **argv)
         // show
         SDL_RenderPresent(renderer);
     }
+    client_close_connection(socket, sin_send, sin_receive);
     WSACleanup();
     bomberman_free(player0);
     players_mgr_free();

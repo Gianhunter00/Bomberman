@@ -19,16 +19,18 @@ bomberman_t *bomberman_new(float x, float y, uint32_t width, uint32_t height, fl
     bomberman->rect_to_draw = (SDL_Rect){0, 0, bomberman->movable.width, bomberman->movable.height};
     return bomberman;
 }
-void bomberman_update_code(bomberman_t* bomberman, int code)
-{
-    if(bomberman == NULL) return;
-    bomberman->code = code;
-}
 
 void bomberman_free(bomberman_t *bomberman)
 {
     free(bomberman);
     bomberman = NULL;
+}
+
+void bomberman_new_texture(bomberman_t *bomberman, SDL_Texture *new_texture)
+{
+    if (new_texture == NULL)
+        return;
+    bomberman->texture_to_draw = new_texture;
 }
 
 void bomberman_input(bomberman_t *bomberman, SDL_Event *event)
@@ -61,13 +63,6 @@ void bomberman_input(bomberman_t *bomberman, SDL_Event *event)
     }
 }
 
-void bomberman_new_texture(bomberman_t *bomberman, SDL_Texture *new_texture)
-{
-    if (new_texture == NULL)
-        return;
-    bomberman->texture_to_draw = new_texture;
-}
-
 void bomberman_draw(bomberman_t *bomberman, SDL_Renderer *renderer)
 {
     if (renderer == NULL || bomberman == NULL || bomberman->texture_to_draw == NULL)
@@ -81,4 +76,10 @@ void bomberman_move_on_level(bomberman_t* bomberman, level_t* level)
     move_on_level(level, &bomberman->movable, bomberman->dir[0], bomberman->dir[1], BOMBERMAN_MASK);
     bomberman->rect_to_draw.x = bomberman->movable.x;
     bomberman->rect_to_draw.y = bomberman->movable.y;
+}
+
+void bomberman_update_code(bomberman_t* bomberman, int code)
+{
+    if(bomberman == NULL) return;
+    bomberman->code = code;
 }
